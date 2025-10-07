@@ -8,7 +8,7 @@ function CardColumn({ column, card }: { column: Column; card: CardType[] }) {
   return (
     <div className="bg-white rounded-lg border-2 p-4">
       <h2 className="text-xl font-semibold mb-2 text-center">{column.title}</h2>
-      <div ref={setNodeRef} className="space-y-2">
+      <div ref={setNodeRef} className="flex flex-col gap-2 min-h-20">
         {card.map((c) => (
           <Card key={c.id} card={c} />
         ))}
