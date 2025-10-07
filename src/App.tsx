@@ -37,23 +37,43 @@ const initialCards: Card[] = [
 function App() {
   const [cards, setCards] = useState<Card[]>(initialCards);
 
+  // Your custom function
+  const onCardMoved = (
+    cardId: number,
+    fromPosition: number,
+    toPosition: number
+  ) => {
+    console.log(
+      `Card ${cardId} moved from position ${fromPosition} to ${toPosition}`
+    );
+    // Add your custom logic here
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (!over) return;
 
     if (over && active.id !== over.id) {
+      const cardId = Number(active.id);
+      const newPosition = columns.find(
+        (col) => col.id === Number(over.id)
+      )!.position;
+      const oldPosition = cards.find((card) => card.id === cardId)!.position;
+
       setCards((prevCards) =>
         prevCards.map((card) =>
-          card.id === Number(active.id)
+          card.id === cardId
             ? {
                 ...card,
-                position: columns.find((col) => col.id === Number(over.id))!
-                  .position,
+                position: newPosition,
               }
             : card
         )
       );
+
+      // Trigger your custom function
+      onCardMoved(cardId, oldPosition, newPosition);
     }
   };
 
